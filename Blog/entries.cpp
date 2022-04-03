@@ -33,34 +33,45 @@ Entries::Entries(QWidget *parent,QString authorID) :
         QMessageBox::warning(this,"Json Format error!","Json Format error!");
 
     QJsonObject rootObj = doc.object();
-    QJsonValue entriesValue = rootObj.value("entries");
-    if (entriesValue.type() == QJsonValue::Array) {
-        QJsonArray entriesArr = entriesValue.toArray();
-        QJsonValue entriesValue = entriesArr.at(0);
-            if (entriesValue.type() == QJsonValue::Object) {
-                QJsonObject userObj = entriesValue.toObject();
-                QString timeValue = userObj.value("creationTime").toString();
-                QString dateValue = userObj.value("date").toString();
-                QString authorValue = userObj.value("author").toString();
-                QString titleValue = userObj.value("title").toString();
-                QString contentValue = userObj.value("content").toString();
 
-                ui->label_title->setText(titleValue);
-                ui->label_id->setText("ID: "+authorID);
-                ui->label_author->setText("Author: "+authorValue);
-                ui->label_content->setText(contentValue);
+    if(rootObj.empty())
+    {
+        ui->groupBox_1->setVisible(false);
+        ui->label_title->clear();
+        ui->label_id->clear();
+        ui->label_author->clear();
+        ui->label_content->clear();
+        ui->pushButton_create->setEnabled(true);
+        ui->pushButton_delete->setEnabled(false);
+    }
+    else
+    {
+        QString authorValue = rootObj.value("author").toString();
+        ui->label_id->setText("ID: "+authorID);
+        ui->label_author->setText("Author: "+authorValue);
+        QString titleValue = rootObj.value("title").toString();
+        ui->label_title->setText(titleValue);
 
-                ui->groupBox_1->setTitle(dateValue+" "+timeValue);
+        QJsonValue entriesValue = rootObj.value("entries");
+        if (entriesValue.type() == QJsonValue::Array) {
+            QJsonArray entriesArr = entriesValue.toArray();
+            QJsonValue entriesValue = entriesArr.at(0);
+                if (entriesValue.type() == QJsonValue::Object) {
+                    QJsonObject entriesObj = entriesValue.toObject();
+                    QString timeValue = entriesObj.value("creationTime").toString();
+                    QString dateValue = entriesObj.value("date").toString();
+                    QString contentValue = entriesObj.value("content").toString();
+                    if(!timeValue.isEmpty() && !dateValue.isEmpty() && !contentValue.isEmpty()) //if entry exists
+                    {
+                        ui->label_content->setText(contentValue);
+                        ui->groupBox_1->setTitle(dateValue+" "+timeValue);
+                    }
+                    else
+                        ui->groupBox_1->setVisible(false);
+                }
             }
-            else
-            {
-                ui->groupBox_1->setVisible(false);
-                ui->label_title->clear();
-                ui->label_id->clear();
-                ui->label_author->clear();
-                ui->label_content->clear();
-            }
-        }
+    }
+
 }
 
 Entries::~Entries()
