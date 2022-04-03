@@ -16,6 +16,9 @@ public:
     ~SignIn();
 public slots:
     void checkLineEdits();
+private slots:
+    void on_pushButton_signin_clicked();
+
 private:
     Ui::SignIn *ui;
 };

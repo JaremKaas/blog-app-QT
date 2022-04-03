@@ -87,7 +87,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_password"/>
+             <widget class="QLineEdit" name="lineEdit_password">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -98,7 +102,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QLabel" name="label">
+             <widget class="QLabel" name="label_wrongdata">
               <property name="text">
                <string/>
               </property>
