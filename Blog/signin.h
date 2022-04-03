@@ -14,7 +14,8 @@ class SignIn : public QMainWindow
 public:
     SignIn(QWidget *parent = nullptr);
     ~SignIn();
-
+public slots:
+    void checkLineEdits();
 private:
     Ui::SignIn *ui;
 };
