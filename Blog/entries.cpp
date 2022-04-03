@@ -78,3 +78,17 @@ Entries::~Entries()
 {
     delete ui;
 }
+
+void Entries::on_pushButton_delete_clicked()
+{
+    QMessageBox::StandardButton confirm;
+      confirm = QMessageBox::question(this, "Delete blog", "Do you want to delete this blog?",
+                                    QMessageBox::Yes|QMessageBox::No);
+      if (confirm == QMessageBox::Yes) {
+        qDebug() << "Yes was clicked";
+        ui->label_title->setText("deleted");
+      } else {
+        qDebug() << "Yes was *not* clicked";
+      }
+}
+

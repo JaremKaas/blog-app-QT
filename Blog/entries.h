@@ -16,6 +16,9 @@ public:
     explicit Entries(QWidget *parent = nullptr, QString authorID=0);
     ~Entries();
 
+private slots:
+    void on_pushButton_delete_clicked();
+
 private:
     Ui::Entries *ui;
 };
