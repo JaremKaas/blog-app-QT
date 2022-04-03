@@ -52,6 +52,14 @@ Entries::Entries(QWidget *parent,QString authorID) :
 
                 ui->groupBox_1->setTitle(dateValue+" "+timeValue);
             }
+            else
+            {
+                ui->groupBox_1->setVisible(false);
+                ui->label_title->clear();
+                ui->label_id->clear();
+                ui->label_author->clear();
+                ui->label_content->clear();
+            }
         }
 }
 
