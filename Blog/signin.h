@@ -2,6 +2,7 @@
 #define SIGNIN_H
 
 #include <QMainWindow>
+#include "entries.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SignIn; }
@@ -14,12 +15,12 @@ class SignIn : public QMainWindow
 public:
     SignIn(QWidget *parent = nullptr);
     ~SignIn();
-public slots:
-    void checkLineEdits();
+
 private slots:
     void on_pushButton_signin_clicked();
-
+    void checkLineEdits();
 private:
     Ui::SignIn *ui;
+    Entries *entries;
 };
 #endif // SIGNIN_H

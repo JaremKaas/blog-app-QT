@@ -68,7 +68,9 @@ void SignIn::on_pushButton_signin_clicked()
                 QString authorIDValue=userObj.value("id").toString();
                 if(user_email == emailValue && user_password==passwordValue)
                 {
-                    ui->label_wrongdata->setText("succes");
+                    hide();
+                    entries= new Entries(this,authorIDValue);
+                    entries->show();
                 }
             }
         }
