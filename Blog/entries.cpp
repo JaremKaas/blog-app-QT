@@ -11,10 +11,11 @@
 #include <QTextStream>
 #include <QMessageBox>
 
-Entries::Entries(QWidget *parent,QString authorID) :
+Entries::Entries(QWidget *parent,QString authorID,QString authorEmail) :
     QDialog(parent),
     ui(new Ui::Entries)
 {
+    this->authorID=authorID;
     ui->setupUi(this);
 
     // read blog entries from file blog+authorID
@@ -34,7 +35,7 @@ Entries::Entries(QWidget *parent,QString authorID) :
 
     QJsonObject rootObj = doc.object();
 
-    if(rootObj.empty())
+    if(rootObj.empty()) // no blog
     {
         ui->groupBox_1->setVisible(false);
         ui->label_title->clear();
@@ -46,11 +47,14 @@ Entries::Entries(QWidget *parent,QString authorID) :
     }
     else
     {
-        QString authorValue = rootObj.value("author").toString();
-        ui->label_id->setText("ID: "+authorID);
-        ui->label_author->setText("Author: "+authorValue);
-        QString titleValue = rootObj.value("title").toString();
-        ui->label_title->setText(titleValue);
+
+        QString titleValue = rootObj.value("title").toString(); // show title
+        ui->label_title->setText(titleValue);                   //
+
+
+        ui->label_author->setText("Author: "+authorEmail);      //show author
+        ui->label_id->setText("ID: "+authorID);                 //show authorID
+
 
         QJsonValue entriesValue = rootObj.value("entries");
         if (entriesValue.type() == QJsonValue::Array) {
@@ -58,17 +62,19 @@ Entries::Entries(QWidget *parent,QString authorID) :
             QJsonValue entriesValue = entriesArr.at(0);
                 if (entriesValue.type() == QJsonValue::Object) {
                     QJsonObject entriesObj = entriesValue.toObject();
-                    QString timeValue = entriesObj.value("creationTime").toString();
-                    QString dateValue = entriesObj.value("date").toString();
-                    QString contentValue = entriesObj.value("content").toString();
-                    if(!timeValue.isEmpty() && !dateValue.isEmpty() && !contentValue.isEmpty()) //if entry exists
+                    if(!entriesObj.isEmpty())
                     {
-                        ui->label_content->setText(contentValue);
-                        ui->groupBox_1->setTitle(dateValue+" "+timeValue);
+                        QString timeValue = entriesObj.value("creationTime").toString();
+                        QString dateValue = entriesObj.value("date").toString();
+                        QString contentValue = entriesObj.value("content").toString();
+
+                         ui->label_content->setText(contentValue);
+                         ui->groupBox_1->setTitle(dateValue+" "+timeValue);
                     }
                     else
                         ui->groupBox_1->setVisible(false);
                 }
+
             }
     }
 
@@ -85,10 +91,27 @@ void Entries::on_pushButton_delete_clicked()
       confirm = QMessageBox::question(this, "Delete blog", "Do you want to delete this blog?",
                                     QMessageBox::Yes|QMessageBox::No);
       if (confirm == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
-        ui->label_title->setText("deleted");
-      } else {
-        qDebug() << "Yes was *not* clicked";
+          QFile writeFile="blog"+authorID+".json";
+          if (!writeFile.open(QFile::WriteOnly | QFile::Truncate))
+              QMessageBox::warning(this,"File error","Json file cannot be opened");
+
+          QJsonObject rootObj;
+          QJsonDocument doc;
+          doc.setObject(rootObj);
+          // Write the modified content to the file
+          QTextStream wirteStream(&writeFile);
+          wirteStream <<doc.toJson(); 		// write file
+          writeFile.close();
+
+          //clear content
+          ui->groupBox_1->setVisible(false);
+          ui->label_title->clear();
+          ui->label_id->clear();
+          ui->label_author->clear();
+          ui->label_content->clear();
+          ui->pushButton_create->setEnabled(true);
+          ui->pushButton_delete->setEnabled(false);
+
       }
 }
 

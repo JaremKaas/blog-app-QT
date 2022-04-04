@@ -69,7 +69,7 @@ void SignIn::on_pushButton_signin_clicked()
                 if(user_email == emailValue && user_password==passwordValue)
                 {
                     hide();
-                    entries= new Entries(this,authorIDValue);
+                    entries= new Entries(this,authorIDValue,emailValue);
                     entries->show();
                 }
             }

@@ -10,10 +10,11 @@ class Entries;
 class Entries : public QDialog
 {
     Q_OBJECT
+    QString authorEmail; //email
     QString authorID;
 
 public:
-    explicit Entries(QWidget *parent = nullptr, QString authorID=0);
+    explicit Entries(QWidget *parent = nullptr, QString authorID="",QString authorEmail="");
     ~Entries();
 
 private slots:
