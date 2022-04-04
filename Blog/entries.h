@@ -2,6 +2,7 @@
 #define ENTRIES_H
 
 #include <QDialog>
+#include "createblog.h"
 
 namespace Ui {
 class Entries;
@@ -14,14 +15,18 @@ class Entries : public QDialog
     QString authorID;
 
 public:
-    explicit Entries(QWidget *parent = nullptr, QString authorID="",QString authorEmail="");
+    explicit Entries(QWidget *parent = nullptr, QString new_authorID="",QString new_authorEmail="");
     ~Entries();
+    void refresh();
 
 private slots:
     void on_pushButton_delete_clicked();
 
+    void on_pushButton_create_clicked();
+
 private:
     Ui::Entries *ui;
+    CreateBlog *createBlog;
 };
 
 #endif // ENTRIES_H

@@ -9,17 +9,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    createblog.cpp \
     entries.cpp \
     main.cpp \
-    signin.cpp
+    signin.cpp \
+    signup.cpp
 
 HEADERS += \
+    createblog.h \
     entries.h \
-    signin.h
+    signin.h \
+    signup.h
 
 FORMS += \
+    createblog.ui \
     entries.ui \
-    signin.ui
+    signin.ui \
+    signup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

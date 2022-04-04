@@ -80,3 +80,10 @@ void SignIn::on_pushButton_signin_clicked()
     }
 }
 
+void SignIn::on_pushButton_signup_clicked()
+{
+    hide();
+    signup =new Signup(this);
+    signup->show();
+}
+

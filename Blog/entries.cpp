@@ -11,13 +11,24 @@
 #include <QTextStream>
 #include <QMessageBox>
 
-Entries::Entries(QWidget *parent,QString authorID,QString authorEmail) :
+Entries::Entries(QWidget *parent,QString new_authorID,QString new_authorEmail) :
     QDialog(parent),
     ui(new Ui::Entries)
 {
-    this->authorID=authorID;
+    authorID=new_authorID;
+    authorEmail=new_authorEmail;
     ui->setupUi(this);
+    refresh();
 
+}
+
+Entries::~Entries()
+{
+    delete ui;
+}
+
+void Entries::refresh()
+{
     // read blog entries from file blog+authorID
     QString fileName="blog"+authorID+".json";
     QFile file(fileName);
@@ -77,12 +88,6 @@ Entries::Entries(QWidget *parent,QString authorID,QString authorEmail) :
 
             }
     }
-
-}
-
-Entries::~Entries()
-{
-    delete ui;
 }
 
 void Entries::on_pushButton_delete_clicked()
@@ -104,14 +109,17 @@ void Entries::on_pushButton_delete_clicked()
           writeFile.close();
 
           //clear content
-          ui->groupBox_1->setVisible(false);
-          ui->label_title->clear();
-          ui->label_id->clear();
-          ui->label_author->clear();
-          ui->label_content->clear();
-          ui->pushButton_create->setEnabled(true);
-          ui->pushButton_delete->setEnabled(false);
-
+         refresh();
       }
+}
+
+
+
+
+void Entries::on_pushButton_create_clicked()
+{
+    createBlog = new CreateBlog(this,authorID);
+    createBlog->show();
+    refresh();
 }
 

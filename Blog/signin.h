@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "entries.h"
+#include "signup.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SignIn; }
@@ -19,8 +20,11 @@ public:
 private slots:
     void on_pushButton_signin_clicked();
     void checkLineEdits();
+    void on_pushButton_signup_clicked();
+
 private:
     Ui::SignIn *ui;
     Entries *entries;
+    Signup *signup;
 };
 #endif // SIGNIN_H
