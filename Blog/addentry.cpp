@@ -1,5 +1,5 @@
-#include "add.h"
-#include "ui_add.h"
+#include "addentry.h"
+#include "ui_addentry.h"
 #include <QTime>
 #include <QDate>
 
@@ -12,21 +12,21 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
-Add::Add(QWidget *parent,int new_authorID,QString new_authorEmail) :
+AddEntry::AddEntry(QWidget *parent,int new_authorID,QString new_authorEmail) :
     QDialog(parent),
-    ui(new Ui::Add)
+    ui(new Ui::AddEntry)
 {
     ui->setupUi(this);
     authorID=new_authorID;
-    authorEmail=new_authorEmail;
+   authorEmail=new_authorEmail;
 }
 
-Add::~Add()
+AddEntry::~AddEntry()
 {
     delete ui;
 }
 
-void Add::on_pushButton_add_clicked()
+void AddEntry::on_pushButton_add_clicked()
 {
     QString content = ui->plainTextEdit_content->toPlainText();
     QString creationTime = QTime::currentTime().toString();
@@ -68,9 +68,5 @@ void Add::on_pushButton_add_clicked()
          QTextStream wirteStream(&fileWrite);
          wirteStream << doc.toJson();		// write file
          fileWrite.close();
-         entries= new Entries(this,authorID,authorEmail);
-         entries->show();
-         hide();
      }
 }
-

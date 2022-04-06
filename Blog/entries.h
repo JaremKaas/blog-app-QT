@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "createblog.h"
 
+
 namespace Ui {
 class Entries;
 }
