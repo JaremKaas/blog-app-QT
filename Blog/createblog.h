@@ -10,10 +10,11 @@ class CreateBlog;
 class CreateBlog : public QDialog
 {
     Q_OBJECT
-    QString authorID;
+    int authorID;
+    QString authorEmail;
 
 public:
-    explicit CreateBlog(QWidget *parent = nullptr,QString new_authorID="");
+    explicit CreateBlog(QWidget *parent = nullptr,int new_authorID=0,QString authorEmail="");
     ~CreateBlog();
 public slots:
     void checkLineEdits();
@@ -23,6 +24,7 @@ private slots:
 
 private:
     Ui::CreateBlog *ui;
+
 };
 
 #endif // CREATEBLOG_H

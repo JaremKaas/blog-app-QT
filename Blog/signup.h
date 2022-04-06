@@ -2,6 +2,7 @@
 #define SIGNUP_H
 
 #include <QDialog>
+#include "entries.h"
 
 namespace Ui {
 class Signup;
@@ -16,8 +17,12 @@ public:
     ~Signup();
 public slots:
     void checkLineEdits();
+private slots:
+    void on_pushButton_next_clicked();
+
 private:
     Ui::Signup *ui;
+    Entries *entries;
 
 };
 

@@ -12,10 +12,10 @@ class Entries : public QDialog
 {
     Q_OBJECT
     QString authorEmail; //email
-    QString authorID;
+    int authorID;
 
 public:
-    explicit Entries(QWidget *parent = nullptr, QString new_authorID="",QString new_authorEmail="");
+    explicit Entries(QWidget *parent = nullptr, int new_authorID=0,QString new_authorEmail="");
     ~Entries();
     void refresh();
 
@@ -23,6 +23,8 @@ private slots:
     void on_pushButton_delete_clicked();
 
     void on_pushButton_create_clicked();
+
+    void ifBlogExists(bool blogExists);
 
 private:
     Ui::Entries *ui;
