@@ -169,6 +169,9 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPlainTextEdit" name="plainTextEdit_newcontent"/>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_add">
          <property name="text">
           <string>Add</string>

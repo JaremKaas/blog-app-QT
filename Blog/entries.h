@@ -27,6 +27,8 @@ private slots:
 
     void ifBlogExists(bool blogExists);
 
+    void on_pushButton_add_clicked();
+
 private:
     Ui::Entries *ui;
     CreateBlog *createBlog;
