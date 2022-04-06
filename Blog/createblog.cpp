@@ -40,8 +40,6 @@ void CreateBlog::on_pushButton_ok_clicked()
 
     QJsonObject rootObj;
     QJsonArray entArr;
-    QJsonObject entry_1;
-    entArr.append(entry_1);
     rootObj.insert("title",blogTitle);
     rootObj["entries"]=entArr;
     QJsonDocument doc;
