@@ -96,9 +96,10 @@ void Entries::refresh()
                     ui->label_content->setText(contentValue);
                     ui->groupBox_1->setTitle(dateValue+" "+timeValue);
                 }
-                else
-                    ui->groupBox_1->setVisible(false);
+
             }
+            if(entriesArr.size()==0)
+                ui->groupBox_1->setVisible(false);
 
         }
     }
@@ -121,9 +122,7 @@ void Entries::on_pushButton_create_clicked()
 {
     createBlog = new CreateBlog(this,authorID);
     createBlog->show();
-    hide();
-
-
+refresh();
 }
 
 
