@@ -2,6 +2,7 @@
 #define CREATEBLOG_H
 
 #include <QDialog>
+#include "addentry.h"
 
 namespace Ui {
 class CreateBlog;
@@ -24,6 +25,7 @@ private slots:
 
 private:
     Ui::CreateBlog *ui;
+    AddEntry *addEn;
 
 };
 

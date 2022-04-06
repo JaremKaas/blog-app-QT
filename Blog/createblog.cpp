@@ -49,5 +49,7 @@ void CreateBlog::on_pushButton_ok_clicked()
     QTextStream wirteStream(&fileBlog);
     wirteStream <<doc.toJson(); 		// write file
     fileBlog.close();
+
+    hide();
 }
 

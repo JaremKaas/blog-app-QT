@@ -34,6 +34,7 @@ void Entries::ifBlogExists(bool blogExists)
         ui->pushButton_delete->setEnabled(true);
         ui->pushButton_create->setEnabled(false);
         ui->groupBox_1->setVisible(true);
+        ui->plainTextEdit_newcontent->setVisible(true);
     }
     else
     {
@@ -41,6 +42,7 @@ void Entries::ifBlogExists(bool blogExists)
         ui->pushButton_delete->setEnabled(false);
         ui->pushButton_create->setEnabled(true);
         ui->groupBox_1->setVisible(false);
+        ui->plainTextEdit_newcontent->setVisible(false);
         ui->label_title->clear();
         ui->label_id->clear();
         ui->label_author->clear();
@@ -82,7 +84,7 @@ void Entries::refresh()
         QJsonValue entriesValue = rootObj.value("entries");
         if (entriesValue.type() == QJsonValue::Array) {
             QJsonArray entriesArr = entriesValue.toArray();
-            QJsonValue entriesValue = entriesArr.at(0);
+            QJsonValue entriesValue = entriesArr.last();
             if (entriesValue.type() == QJsonValue::Object) {
                 QJsonObject entriesObj = entriesValue.toObject();
                 if(!entriesObj.isEmpty())
@@ -120,5 +122,55 @@ void Entries::on_pushButton_create_clicked()
     createBlog = new CreateBlog(this,authorID);
     createBlog->show();
     hide();
+
+
+}
+
+
+void Entries::on_pushButton_add_clicked()
+{
+    QString content = ui->plainTextEdit_newcontent->toPlainText();
+    QString creationTime = QTime::currentTime().toString();
+    QString creationDate = QDate::currentDate().toString();
+
+    QString fileName="blog"+QString::number(authorID)+".json";
+    QFile fileBlog(fileName);
+    if (!fileBlog.open(QFile::ReadOnly | QFile::Text))
+        QMessageBox::warning(this,"File error","Json file cannot be opened");
+
+    QTextStream stream(&fileBlog); // Read the entire contents of the file
+    QString str = stream.readAll();
+    fileBlog.close();
+
+    QJsonParseError jsonParseError;
+    QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8(), &jsonParseError);
+    if (jsonParseError.error != QJsonParseError::NoError && !doc.isNull())
+        QMessageBox::warning(this,"Json Format error!","Json Format error!");
+
+     QJsonObject rootObj = doc.object();
+     QJsonValue entriesValue = rootObj.value("entries");
+     if (entriesValue.type() == QJsonValue::Array) {
+         QJsonArray entriesArr = entriesValue.toArray();
+         QJsonObject newEntry;                   // create an object for new user
+         newEntry.insert("creationTime", creationTime);
+         newEntry.insert("creationDate", creationDate);
+         newEntry.insert("content",content);
+
+         entriesArr.append(newEntry);  // add new user to the array
+         rootObj["entries"] = entriesArr; // and root object
+         doc.setObject(rootObj);
+
+         // Rewrite the file
+         QFile fileWrite(fileName);
+         if (!fileWrite.open(QFile::WriteOnly | QFile::Truncate))
+            QMessageBox::warning(this,"File error","Json file cannot be opened2");
+
+         // Write the modified content to the file
+         QTextStream wirteStream(&fileWrite);
+         wirteStream << doc.toJson();		// write file
+         fileWrite.close();
+         ui->plainTextEdit_newcontent->clear();
+     }
+     refresh();
 }
 
